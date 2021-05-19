@@ -13,7 +13,7 @@ end
 function Ball:collides(target)
     -- first, check to see if the left edge of either is farther to the right
     -- than the right edge of the other
-    if self.x>target.x + target.width or target.x > self.x+self.width then
+    if self.x > target.x + target.width or target.x > self.x+self.width then
         return false
     end
 

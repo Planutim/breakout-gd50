@@ -29,7 +29,8 @@ function love.load()
         -- us to show only part of a texture and not the entire thing
         gFrames = {
             ['paddles'] = GenerateQuadsPaddles(gTextures['main']),
-            ['balls'] = GenerateQuadsBalls(gTextures['main'])
+            ['balls'] = GenerateQuadsBalls(gTextures['main']),
+            ['bricks'] = GenerateQuadsBricks(gTextures['main'])
         }
 
         push:setupScreen(VIRTUAL_WIDTH, VIRTUAL_HEIGHT, WINDOW_WIDTH, WINDOW_HEIGHT, {
@@ -42,7 +43,8 @@ function love.load()
             ['paddle-hit'] = love.audio.newSource('sounds/paddle_hit.wav', 'static'),
             ['pause'] = love.audio.newSource('sounds/pause.wav', 'static'),
             ['confirm'] = love.audio.newSource('sounds/confirm.wav', 'static'),
-            ['wall-hit'] = love.audio.newSource('sounds/wall_hit.wav', 'static')               
+            ['wall-hit'] = love.audio.newSource('sounds/wall_hit.wav', 'static'),
+            ['brick-hit-2'] = love.audio.newSource('sounds/brick-hit-2.wav', 'static')             
         }
 
 
