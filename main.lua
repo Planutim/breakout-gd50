@@ -38,12 +38,15 @@ function love.load()
         })
 
         gSounds = {
-            ['paddle-hit'] = love.audio.newSource('sounds/paddle_hit.wav', 'static')                     
+            ['paddle-hit'] = love.audio.newSource('sounds/paddle_hit.wav', 'static'),
+            ['pause'] = love.audio.newSource('sounds/pause.wav', 'static'),
+            ['confirm'] = love.audio.newSource('sounds/confirm.wav', 'static')               
         }
 
 
     gStateMachine = StateMachine {
-        ['start'] = function() return StartState() end
+        ['start'] = function() return StartState() end,
+        ['play'] = function() return PlayState() end
     }
 
     gStateMachine:change('start')
