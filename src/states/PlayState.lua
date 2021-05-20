@@ -69,6 +69,18 @@ function PlayState:update(dt)
         if brick.inPlay and self.ball:collides(brick) then
             brick:hit()
 
+            if self:checkVictory() then
+                gSounds['victory']:play()
+
+                gStateMachine:change('victory', {
+                    level = self.level,
+                    paddle = self.paddle,
+                    health = self.health,
+                    score = self.score,
+                    ball = self.ball
+                })
+            end
+
             self.score = self.score + 10
             --[[
                 we check to see if the opposite side of our velocity
@@ -157,4 +169,13 @@ function PlayState:render()
         
         love.graphics.printf("PAUSED",0, VIRTUAL_HEIGHT/2, VIRTUAL_WIDTH, 'center')
     end
+end
+
+function PlayState:checkVictory()
+    for k, brick in pairs(self.bricks) do
+        if brick.inPlay then
+            return false
+        end
+    end
+    return true
 end

@@ -47,7 +47,8 @@ function love.load()
             ['wall-hit'] = love.audio.newSource('sounds/wall_hit.wav', 'static'),
             ['brick-hit-1'] = love.audio.newSource('sounds/brick-hit-1.wav','static'),
             ['brick-hit-2'] = love.audio.newSource('sounds/brick-hit-2.wav', 'static'),
-            ['hurt'] = love.audio.newSource('sounds/hurt.wav', 'static')
+            ['hurt'] = love.audio.newSource('sounds/hurt.wav', 'static'),
+            ['victory'] = love.audio.newSource('sounds/victory.wav', 'static')
         }
 
 
@@ -55,10 +56,14 @@ function love.load()
         ['start'] = function() return StartState() end,
         ['play'] = function() return PlayState() end,
         ['serve'] = function() return ServeState() end,
-        ['game-over'] = function() return GameOverState() end
+        ['game-over'] = function() return GameOverState() end,
+        ['victory'] = function() return VictoryState() end,
+        ['high-scores'] = function() return HighScoreState() end
     }
 
-    gStateMachine:change('start')
+    gStateMachine:change('start', {
+        highScores = loadHighScores()
+    })
 
     love.keyboard.keysPressed = {}
 end
@@ -133,4 +138,55 @@ function renderHealth(health)
         love.graphics.draw(gTextures['hearts'], gFrames['hearts'][2], healthX, 4)
         healthX = healthX+11
     end
+end
+
+--[[
+        Loads high scores from a .lst file, saved in LÖVE2D's default save directory in a subfolder
+    called 'breakout'.
+]]
+function loadHighScores()
+    love.filesystem.setIdentity('breakout')
+
+    -- if the file does not exists, initialize it with some default scores
+    if not love.filesystem.getInfo('breakout.lst') then
+        local scores = ''
+        for i = 10, 1, -1 do
+            scores = scores .. 'CTO\n'
+            scores = scores .. tostring(i*1000) .. '\n'
+        end
+
+        love.filesystem.write('breakout.lst', scores)
+    end
+
+
+    -- flag for whether we're reading a name or not
+    local name = true
+    local currentName = nil
+    local counter = 1
+
+    -- initialize scores table with at least 10 black entries
+    local scores = {}
+
+    for i = 1, 10 do
+        -- blank table; each will hold a name and a score
+        scores[i] = {
+            name = nil,
+            score = nil
+        }
+    end
+
+    -- iterate over each line in the file, filling in names and scores
+    for line in love.filesystem.lines('breakout.lst') do
+        if name then
+            scores[counter].name = string.sub(line, 1, 3)
+        else
+            scores[counter].score = tonumber(line)
+            counter = counter +1
+        end
+         
+        -- flip the name flag
+        name = not name
+    end
+
+    return scores
 end
