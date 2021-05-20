@@ -19,6 +19,7 @@ require 'src/states/GameOverState'
 require 'src/states/VictoryState'
 require 'src/states/HighScoreState'
 require 'src/states/EnterHighScoreState'
+require 'src/states/PaddleSelectState'
 
 require 'src/Paddle'
 require 'src/Ball'
