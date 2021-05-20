@@ -48,7 +48,9 @@ function love.load()
             ['brick-hit-1'] = love.audio.newSource('sounds/brick-hit-1.wav','static'),
             ['brick-hit-2'] = love.audio.newSource('sounds/brick-hit-2.wav', 'static'),
             ['hurt'] = love.audio.newSource('sounds/hurt.wav', 'static'),
-            ['victory'] = love.audio.newSource('sounds/victory.wav', 'static')
+            ['victory'] = love.audio.newSource('sounds/victory.wav', 'static'),
+            ['select'] = love.audio.newSource('sounds/select.wav', 'static'),
+            ['high-score'] = love.audio.newSource('sounds/high_score.wav', 'static'),
         }
 
 
@@ -58,7 +60,8 @@ function love.load()
         ['serve'] = function() return ServeState() end,
         ['game-over'] = function() return GameOverState() end,
         ['victory'] = function() return VictoryState() end,
-        ['high-scores'] = function() return HighScoreState() end
+        ['high-scores'] = function() return HighScoreState() end,
+        ['enter-high-scores'] = function() return EnterHighScoreState() end
     }
 
     gStateMachine:change('start', {
